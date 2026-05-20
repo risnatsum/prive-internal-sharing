@@ -13,34 +13,30 @@ This document is the **single source of truth** for the optimisation strategy pr
 
 ---
 
-<!--
 ## Available Fitness Functions (Prive API)
 
-Descriptions are sourced from official Prive documentation. Weights across the fitness array MUST sum to exactly 1.0.
-"Used in presets" column references preset IDs defined below.
+Descriptions sourced from official Prive documentation. Weights across the fitness array must sum to exactly `1.0`. The "Used in Presets" column references preset IDs defined below.
 
-| Code       | Full Name                          | Description                                                                                                                                                                                    | Extra Field Required                                       | Used in Presets |
-| :--------- | :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- | :-------------- |
-| SHARPE     | Sharpe Ratio Factor                | Maximises the Sharpe Ratio of the recommended portfolio — the highest possible return per unit of risk.                                                                                        | —                                                          | 1, 2            |
-| PDF        | Product Diversification Factor     | Measures diversification across different products. The recommended portfolio will have as many products as possible with approximately equal weight. Adjustment factors for product types can be applied. | —                                               | 1, 2, 4         |
-| REAI       | Re-use Existing Assets Index       | Measures re-use of the investor's existing holdings. Reduces turnover by retaining as many current positions as possible.                                                                      | —                                                          | 1, 3, 4         |
-| EWF        | Equal Weight Factor                | Measures the extent of equally-weighted assets. Reduces extreme allocations on the high or low end, producing a more balanced portfolio.                                                        | —                                                          | 2               |
-| MRVI       | Min Return-gap Volatility Index    | Minimises the difference between the portfolio's return and the client's target return, subject to the portfolio's volatility not exceeding the risk limit.                                     | —                                                          | 3               |
-| MPF_20176  | Maximum Performance Factor (#20176)| Maximises return by targeting and exceeding the expected annualised return given as input. Model ID 20176 specifies the underlying model configuration.                                         | —                                                          | 3               |
-| VCPF       | Volatility Cap Performance Factor  | Targets a volatility ceiling. The recommended portfolio will try to reach but not breach the target volatility.                                                                                | `risk-cap` (decimal, e.g. 0.15 = 15% vol cap)             | 4               |
-| FXM        | FX Minimisation Factor             | Minimises FX transactions by keeping as much as possible of each currency's allocation from the existing portfolio. Reduces currency conversion costs and FX risk.                              | —                                                          | 4               |
-| ACAF       | Asset Class Allocation Factor      | Measures how closely the recommended portfolio follows a target allocation across asset classes.                                                                                                | `asset-class-allocation` (array of class + weight pairs)   | —               |
-| PAF        | Preferred Assets Factor            | Maximises use of preferred assets (e.g. premier funds) in the portfolio. Primarily used to identify assets for retention/sale.                                                                  | —                                                          | —               |
-| PCF        | Preferred Currency Factor          | Maximises the portfolio value invested in assets denominated in the investor's preferred currencies.                                                                                            | —                                                          | —               |
-| PPF        | Portfolio Performance Factor       | Maximises portfolio return relative to the model portfolio. More aggressive than MPF.                                                                                                          | —                                                          | —               |
-| PVF        | Portfolio Volatility Factor        | Minimises the volatility of the recommended portfolio relative to the model portfolio.                                                                                                         | —                                                          | —               |
-| MPF        | Maximum Performance Factor (base)  | Maximises return by targeting and exceeding the expected annualised return. Base version without a specific model ID.                                                                           | —                                                          | —               |
-| ETFF       | ETF Allocation Factor              | Steers the portfolio toward a target ETF allocation percentage.                                                                                                                                | `ETF-allocation` (decimal)                                 | —               |
-| REGF       | Regional Allocation Factor         | Measures how closely the recommended portfolio follows a target regional exposure breakdown.                                                                                                    | `region-allocation` (array of region + weight pairs)       | —               |
+> **Note:** SHARPE, REAI, MRVI, and FXM are the confirmed correct codes for this tenant. Alternate codes visible in some Prive documentation (SRF, REAF, MRVF, FXMF) are not used here.
 
-Note: SHARPE, REAI, MRVI, and FXM are the confirmed correct codes to use with the Prive API for this tenant.
-The alternate codes visible in some Prive documentation (SRF, REAF, MRVF, FXMF) are not used here.
--->
+| Code | Full Name | Description | Extra Field Required | Used in Presets |
+| :--- | :--- | :--- | :--- | :--- |
+| SHARPE | Sharpe Ratio Factor | Maximises the Sharpe Ratio — the highest possible return per unit of risk. | — | 1, 2 |
+| PDF | Product Diversification Factor | Measures diversification across different products. Portfolio will have as many products as possible with approximately equal weight. Adjustment factors for product types can be applied. | — | 1, 2, 4 |
+| REAI | Re-use Existing Assets Index | Measures re-use of the investor's existing holdings. Reduces turnover by retaining as many current positions as possible. | — | 1, 3, 4 |
+| EWF | Equal Weight Factor | Measures the extent of equally-weighted assets. Reduces extreme allocations on the high or low end, producing a more balanced portfolio. | — | 2 |
+| MRVI | Min Return-gap Volatility Index | Minimises the difference between the portfolio's return and the client's target return, subject to volatility not exceeding the risk limit. | — | 3 |
+| MPF_20176 | Maximum Performance Factor (#20176) | Maximises return by targeting and exceeding the expected annualised return. Model ID 20176 specifies the underlying model configuration. | — | 3 |
+| VCPF | Volatility Cap Performance Factor | Targets a volatility ceiling. Portfolio will try to reach but not breach the target volatility. | `risk-cap` (decimal, e.g. `0.15` = 15% vol cap) | 4 |
+| FXM | FX Minimisation Factor | Minimises FX transactions by keeping as much of each currency's allocation from the existing portfolio as possible. Reduces currency conversion costs and FX risk. | — | 4 |
+| ACAF | Asset Class Allocation Factor | Measures how closely the portfolio follows a target allocation across asset classes. | `asset-class-allocation` (array of class + weight pairs) | — |
+| PAF | Preferred Assets Factor | Maximises use of preferred assets (e.g. premier funds). Primarily used to identify assets for retention/sale. | — | — |
+| PCF | Preferred Currency Factor | Maximises portfolio value invested in assets denominated in the investor's preferred currencies. | — | — |
+| PPF | Portfolio Performance Factor | Maximises portfolio return relative to the model portfolio. More aggressive than MPF. | — | — |
+| PVF | Portfolio Volatility Factor | Minimises portfolio volatility relative to the model portfolio. | — | — |
+| MPF | Maximum Performance Factor (base) | Maximises return by targeting and exceeding the expected annualised return. Base version without a specific model ID. | — | — |
+| ETFF | ETF Allocation Factor | Steers the portfolio toward a target ETF allocation percentage. | `ETF-allocation` (decimal) | — |
+| REGF | Regional Allocation Factor | Measures how closely the portfolio follows a target regional exposure breakdown. | `region-allocation` (array of region + weight pairs) | — |
 
 ---
 
